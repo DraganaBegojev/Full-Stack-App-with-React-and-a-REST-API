@@ -4,11 +4,19 @@
 const express = require('express');
 const morgan = require('morgan');
 
+// cors setup
+const cors = require('cors');
+
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
 
 // create the Express app
 const app = express();
+
+// enable all CORS requests
+app.use(cors({
+  origin: 'http://localhost:5137',
+}));
 
 // test the database connection
 const { sequelize } = require('./models');
