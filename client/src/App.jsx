@@ -1,10 +1,17 @@
-import Header from "./components/Header";
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
 
 const App = () => {
   return (
     <>
       <Header />
-      <h1>Hello World</h1>
+      
+      <Routes>
+        <Route path="/" element={<Courses />} />
+        <Route path="/courses/:id" element={<CourseDetail />} />
+      </Routes>
     </>
   );
 };
