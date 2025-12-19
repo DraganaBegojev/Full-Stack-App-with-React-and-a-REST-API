@@ -76,7 +76,7 @@ const UserSignIn = () => {
 
         <p>
           Don't have a user account? Click here to{' '}
-          <Link to="/signup">sign up</Link>!
+          <Link to="/sign-up">sign up</Link>!
         </p>
       </div>
     </main>
