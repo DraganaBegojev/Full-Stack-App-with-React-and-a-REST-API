@@ -16,7 +16,7 @@ const Header = () => {
     <header>
       <div className="wrap header--flex">
         <h1 className="header--logo">
-          <a href="/">Courses</a>
+          <Link to="/">Courses</Link>
         </h1>
         <nav>
           {authUser ? (
@@ -29,10 +29,10 @@ const Header = () => {
           ) : (
           <ul className="header--signedout">
             <li>
-              <a href="/sign-up">Sign Up</a>
+              <Link to="/sign-up">Sign Up</Link>
             </li>
             <li>
-              <a href="/sign-in">Sign In</a>
+              <Link to="/sign-in">Sign In</Link>
             </li>
           </ul>
           )}
