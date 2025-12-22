@@ -49,7 +49,7 @@ const UserSignUp = () => {
 
       if (response.status === 201) {
         // Automatically sign in the user after successful registration
-        await signIn(emailAddress, password);
+        await signIn({ emailAddress, password });
 
         // Redirect to the home page
         navigate('/');
