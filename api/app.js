@@ -15,7 +15,7 @@ const app = express();
 
 // enable all CORS requests
 app.use(cors({
-  origin: 'http://localhost:5137',
+  origin: 'http://localhost:5173',
 }));
 
 // test the database connection
