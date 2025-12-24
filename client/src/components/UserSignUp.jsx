@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import ValidationErrors from '../components/ValidationErrors';
 
 const UserSignUp = () => {
   // Form state
@@ -53,10 +54,11 @@ const UserSignUp = () => {
 
         // Redirect to the home page
         navigate('/');
-      } else {
-        // Handle validation errors from the API
+      } else if (response.status === 400) {
         const data = await response.json();
-        setErrors(data.errors || ['Sign up failed']);
+        setErrors(data.errors);
+      } else { 
+        throw new Error(); 
       }
     } catch {
       // Handle unexpected errors
@@ -75,17 +77,7 @@ const UserSignUp = () => {
       <div className="form--centered">
         <h2>Sign Up</h2>
 
-        {/* Display validation errors */}
-        {errors.length > 0 && (
-          <div className="validation-errors">
-            <h3>Validation Errors</h3>
-            <ul>
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <ValidationErrors errors={errors} />
 
         <form onSubmit={handleSubmit}>
           <label htmlFor="firstName">First Name</label>

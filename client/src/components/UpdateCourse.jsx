@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import ValidationErrors from '../components/ValidationErrors';
 
 const UpdateCourse = () => {
   const { id } = useParams();
@@ -59,10 +60,12 @@ const UpdateCourse = () => {
 
       if (response.status === 204) {
         navigate(`/courses/${id}`);
-      } else {
+      } else if (response.status === 400) {
         const data = await response.json();
-        setErrors(Array.isArray(data.errors) ? data.errors : ['Something went wrong']);
-      }
+        setErrors(data.errors);
+      } else {
+        throw new Error();
+      } 
     } catch {
       setErrors(['Something went wrong']);
     }
@@ -72,18 +75,7 @@ const UpdateCourse = () => {
     <main>
       <div className="wrap">
         <h2>Update Course</h2>
-
-        {/* Validation Errors */}
-        {errors.length > 0 && (
-          <div className="validation--errors">
-            <h3>Validation Errors</h3>
-            <ul>
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <ValidationErrors errors={errors} />
 
         <form onSubmit={handleSubmit}>
           <div className="main--flex">
