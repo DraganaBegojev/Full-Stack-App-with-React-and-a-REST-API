@@ -1,31 +1,35 @@
 import { useEffect, useState, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import AuthContext from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 const CourseDetail = () => {
   const { id } = useParams();
-  const [course, setCourse] = useState(null);
-  const { authUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { authUser } = useContext(AuthContext);
+
+  const [course, setCourse] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${id}`)
-      .then(res => res.json())
-      .then(data => setCourse(data))
-      .catch(err => console.error(err));
+      .then((res) => res.json())
+      .then((data) => setCourse(data))
+      .catch((err) => console.error(err));
   }, [id]);
 
   if (!course) return null;
 
-  // delete course function
+  // Check if authenticated user owns the course
+  const isCourseOwner =
+    authUser && authUser.id === course.userId;
 
+  // Delete course
   const handleDelete = async () => {
+    if (!authUser) return;
+
     const confirmed = window.confirm(
       'Are you sure you want to delete this course?'
     );
-
     if (!confirmed) return;
 
     try {
@@ -43,28 +47,36 @@ const CourseDetail = () => {
         }
       );
 
-        if (response.status === 204) {
-          navigate('/');
-        } else {
-          throw new Error();
-        }
-      } catch {
-        alert('Something went wrong while deleting the course.');
+      if (response.status === 204) {
+        navigate('/');
+      } else {
+        throw new Error();
       }
+    } catch {
+      alert('Something went wrong while deleting the course.');
+    }
   };
-
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to={`/courses/${id}/update`}>
-            Update Course
-          </Link>
-          {authUser && authUser.id === course.userId && (
-            <button className="button" onClick={handleDelete}>
-              Delete Course
-            </button>
+          {isCourseOwner && (
+            <>
+              <Link
+                className="button"
+                to={`/courses/${id}/update`}
+              >
+                Update Course
+              </Link>
+
+              <button
+                className="button"
+                onClick={handleDelete}
+              >
+                Delete Course
+              </button>
+            </>
           )}
 
           <Link className="button button-secondary" to="/">
@@ -76,34 +88,35 @@ const CourseDetail = () => {
       <div className="wrap">
         <h2>Course Detail</h2>
 
-        <form>
-          <div className="main--flex">
-            <div>
-              <h3 className="course--detail--title">Course</h3>
-              <h4 className="course--name">{course.title}</h4>
-              <p>
-                By {course.User.firstName} {course.User.lastName}
-              </p>
+        <div className="main--flex">
+          <div>
+            <h3 className="course--detail--title">Course</h3>
+            <h4 className="course--name">{course.title}</h4>
+            <p>
+              By {course.User.firstName} {course.User.lastName}
+            </p>
 
-              <ReactMarkdown>
-                {course.description}
-              </ReactMarkdown>
-            </div>
-
-            <div>
-              <h3 className="course--detail--title">Estimated Time</h3>
-              <p>{course.estimatedTime}</p>
-
-              <h3 className="course--detail--title">Materials Needed</h3>
-              <ReactMarkdown>
-                {course.materialsNeeded}
-              </ReactMarkdown>
-            </div>
+            <ReactMarkdown>{course.description}</ReactMarkdown>
           </div>
-        </form>
+
+          <div>
+            <h3 className="course--detail--title">
+              Estimated Time
+            </h3>
+            <p>{course.estimatedTime}</p>
+
+            <h3 className="course--detail--title">
+              Materials Needed
+            </h3>
+            <ReactMarkdown>
+              {course.materialsNeeded}
+            </ReactMarkdown>
+          </div>
+        </div>
       </div>
     </main>
   );
 };
 
 export default CourseDetail;
+
