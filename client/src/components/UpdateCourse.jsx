@@ -48,11 +48,9 @@ const UpdateCourse = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            Authorization:
-              'Basic ' +
-              btoa(
-                `${authUser.credentials.emailAddress}:${authUser.credentials.password}`
-              ),
+            Authorization: `Basic ${btoa(
+              `${authUser.credentials.emailAddress}:${authUser.credentials.password}`
+            )}`,
           },
           body: JSON.stringify(updatedCourse),
         }

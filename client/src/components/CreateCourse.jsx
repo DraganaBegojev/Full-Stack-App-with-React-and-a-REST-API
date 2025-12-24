@@ -41,6 +41,9 @@ const CreateCourse = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Basic ${btoa(
+            `${authUser.credentials.emailAddress}:${authUser.credentials.password}`
+          )}`,
         },
         body: JSON.stringify(course),
       });

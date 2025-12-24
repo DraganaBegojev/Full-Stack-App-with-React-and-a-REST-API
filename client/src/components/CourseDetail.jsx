@@ -38,11 +38,9 @@ const CourseDetail = () => {
         {
           method: 'DELETE',
           headers: {
-            Authorization:
-              'Basic ' +
-              btoa(
-                `${authUser.credentials.emailAddress}:${authUser.credentials.password}`
-              ),
+            Authorization: `Basic ${btoa(
+              `${authUser.credentials.emailAddress}:${authUser.credentials.password}`
+            )}`,
           },
         }
       );
