@@ -56,10 +56,10 @@ const CreateCourse = () => {
         const data = await response.json();
         setErrors(data.errors);
       } else {
-        throw new Error();
+        navigate('/error');
       }
     } catch {
-      setErrors(['Something went wrong. Please try again.']);
+      navigate('/error');
     }
   };
 

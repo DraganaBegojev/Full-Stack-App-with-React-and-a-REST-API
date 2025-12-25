@@ -58,13 +58,14 @@ const UserSignUp = () => {
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
-      } else { 
-        throw new Error(); 
+      } else if (response.status === 500) {
+        navigate('/error');
+      } else {
+        throw new Error();
       }
     } catch {
-      // Handle unexpected errors
-      setErrors(['Something went wrong. Please try again.']);
-    }
+        navigate('/error');
+      }
   };
 
   // Handle cancel button

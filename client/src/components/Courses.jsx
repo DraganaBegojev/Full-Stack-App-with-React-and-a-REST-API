@@ -1,16 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // component to display a list of courses
 const Courses = () => {
   const [courses, setCourses] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch('http://localhost:5000/api/courses')
-      .then(res => res.json())
-      .then(data => setCourses(data))
-      .catch(err => console.error(err));
-  }, []);
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/courses');
+        if (response.status === 200) {
+          const data = await response.json();
+          setCourses(data);
+        } else if (response.status === 500) {
+          navigate('/error');
+          return;
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        console.error(error);
+        navigate('/error');
+      }
+    };
+
+    fetchCourses();
+  }, [navigate]);
 
   return (
     <main>
