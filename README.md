@@ -17,15 +17,15 @@ A full-stack JavaScript app built with React and a RESTful API, featuring authen
 - Auth: Basic Authentication
 
 ## Getting Started
-`API
-cd api
+### API
+`cd api
 npm install
-npm start
-`
-## Client
+npm start`
+API runs on http://localhost:5000
+
+### Client
 `cd client
 npm install
 npm run dev`
-
 Client runs on http://localhost:5173
-API runs on http://localhost:5000
+
