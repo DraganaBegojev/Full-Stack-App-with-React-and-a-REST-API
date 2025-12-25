@@ -2,7 +2,7 @@
 // Allows existing users to authenticate using email and password
 
 import { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 // component to handle user sign-in
@@ -17,17 +17,22 @@ const UserSignIn = () => {
   const { signIn } = useContext(AuthContext);
   // Hook for programmatic navigation
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let from = '/';
+    if (location.state) {
+      from = location.state.from;
+    }
 
     // Attempt to sign in the user
     const user = await signIn({ emailAddress, password });
 
     // If successful, redirect to home; otherwise, show error
     if (user) {
-      navigate('/');
+      navigate(from);
     } else {
       setErrors(['Sign-in was unsuccessful']);
     }
