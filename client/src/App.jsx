@@ -7,6 +7,10 @@ import UserSignUp from './components/UserSignUp';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
 import PrivateRoute from './components/PrivateRoute';
+import NotFound from './components/NotFound';
+import Forbidden from './components/Forbidden';
+import UnhandledError from './components/UnhandledError';
+
 
 const App = () => {
   return (
@@ -22,6 +26,11 @@ const App = () => {
           <Route path="/courses/create" element={<CreateCourse />} />
           <Route path="/courses/:id/update" element={<UpdateCourse />} />
         </Route>
+        <Route path="/notfound" element={<NotFound />} />
+        <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="/error" element={<UnhandledError />} />
+        {/* fallback za sve nepostojeće rute */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

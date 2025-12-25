@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import ValidationErrors from '../components/ValidationErrors';
 
+// component to create a new course
 const CreateCourse = () => {
   // Access authenticated user from context
   const { authUser } = useContext(AuthContext);

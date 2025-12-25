@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import ValidationErrors from '../components/ValidationErrors';
 
+// component to update an existing course
 const UpdateCourse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,18 +18,42 @@ const UpdateCourse = () => {
 
   // Load existing course data
   useEffect(() => {
-    fetch(`http://localhost:5000/api/courses/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchCourse = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/courses/${id}`
+        );
+
+        if (response.status === 404) {
+          navigate('/notfound');
+          return;
+        }
+
+        if (response.status === 500) {
+          navigate('/error');
+          return;
+        }
+
+        const data = await response.json();
+
+        // Ako korisnik nije vlasnik kursa → forbidden
+        if (authUser && data.userId !== authUser.id) {
+          navigate('/forbidden');
+          return;
+        }
+
         setTitle(data.title);
         setDescription(data.description);
         setEstimatedTime(data.estimatedTime);
         setMaterialsNeeded(data.materialsNeeded);
-      })
-      .catch(() => {
-        setErrors(['Failed to load course data']);
-      });
-  }, [id]);
+      } catch {
+        navigate('/error');
+      }
+    };
+
+    fetchCourse();
+  }, [id, authUser, navigate]);
+
 
   // Submit updated course
   const handleSubmit = async (e) => {

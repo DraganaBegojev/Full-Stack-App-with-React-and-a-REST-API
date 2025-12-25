@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
-
+// component to display the header with navigation links
 const Header = () => {
   const { authUser, signOut } = useContext(AuthContext);
   const navigate = useNavigate();

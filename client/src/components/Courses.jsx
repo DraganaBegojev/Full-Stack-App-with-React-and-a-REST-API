@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// component to display a list of courses
 const Courses = () => {
   const [courses, setCourses] = useState([]);
 

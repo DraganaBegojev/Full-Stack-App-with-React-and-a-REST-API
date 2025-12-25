@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import ValidationErrors from '../components/ValidationErrors';
 
+// component to handle user sign-up
 const UserSignUp = () => {
   // Form state
   const [firstName, setFirstName] = useState('');

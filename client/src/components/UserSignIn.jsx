@@ -5,6 +5,7 @@ import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
+// component to handle user sign-in
 const UserSignIn = () => {
 // State for controlled form inputs
   const [emailAddress, setEmailAddress] = useState('');

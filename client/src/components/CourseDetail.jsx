@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import AuthContext from '../context/AuthContext';
 
+// component to display detailed information about a specific course
 const CourseDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -11,11 +12,30 @@ const CourseDetail = () => {
   const [course, setCourse] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/courses/${id}`)
-      .then((res) => res.json())
-      .then((data) => setCourse(data))
-      .catch((err) => console.error(err));
-  }, [id]);
+    const fetchCourse = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/courses/${id}`
+        );
+
+        if (response.status === 404) {
+          navigate('/notfound');
+        } else if (response.status === 500) {
+          navigate('/error');
+        } else if (response.ok) {
+          const data = await response.json();
+          setCourse(data);
+        } else {
+          navigate('/error');
+        }
+      } catch {
+        navigate('/error');
+      }
+    };
+
+    fetchCourse();
+  }, [id, navigate]);
+
 
   if (!course) return null;
 
