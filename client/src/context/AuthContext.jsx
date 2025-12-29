@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import API_BASE_URL from '../config';
 
 const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
 
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${API_BASE_URL}/api/users`, {
         method: 'GET',
         headers: {
           Authorization: `Basic ${encodedCredentials}`,

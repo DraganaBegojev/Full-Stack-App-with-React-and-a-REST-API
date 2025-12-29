@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../config';
 
 // component to display a list of courses
 const Courses = () => {
@@ -9,7 +10,7 @@ const Courses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/courses');
+        const response = await fetch(`${API_BASE_URL}/api/courses`);
         if (response.status === 200) {
           const data = await response.json();
           setCourses(data);

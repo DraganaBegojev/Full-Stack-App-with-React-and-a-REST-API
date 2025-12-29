@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import ValidationErrors from '../components/ValidationErrors';
+import API_BASE_URL from '../config';
 
 // component to update an existing course
 const UpdateCourse = () => {
@@ -21,7 +22,7 @@ const UpdateCourse = () => {
     const fetchCourse = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/courses/${id}`
+          `${API_BASE_URL}/api/courses/${id}`
         );
 
         if (response.status === 404) {
@@ -68,7 +69,7 @@ const UpdateCourse = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/courses/${id}`,
+        `${API_BASE_URL}/api/courses/${id}`,
         {
           method: 'PUT',
           headers: {

@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import ValidationErrors from '../components/ValidationErrors';
+import API_BASE_URL from '../config';
 
 // component to handle user sign-up
 const UserSignUp = () => {
@@ -41,7 +42,7 @@ const UserSignUp = () => {
 
     try {
       // Send POST request to create a new user
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${API_BASE_URL}/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
