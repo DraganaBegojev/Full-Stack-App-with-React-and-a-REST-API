@@ -15,7 +15,10 @@ const app = express();
 
 // enable all CORS requests
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: [
+    'http://localhost:5173',
+    'https://full-stack-app-dragana-begojev.up.railway.app/'
+  ]
 }));
 
 // test the database connection
