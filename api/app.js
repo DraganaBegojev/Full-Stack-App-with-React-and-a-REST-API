@@ -17,9 +17,13 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://full-stack-app-dragana-begojev.up.railway.app/'
-  ]
+    'https://full-stack-app-dragana-begojev.up.railway.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+app.options('*', cors());
 
 // test the database connection
 const { sequelize } = require('./models');
